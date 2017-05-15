@@ -1,0 +1,8 @@
+macro(FindZMQ)
+	set(ZMQ_INSTALL_DIR ZMQ_INSTALL_DIR-NOTFOUND CACHE PATH "ZMQ installation directory. Must contain a lib and include directory.")
+	if(NOT ZMQ_INSTALL_DIR)
+		message(FATAL_ERROR "ZMQ installation path wasn't provided. Use -DZMQ_INSTALL_DIR:PATH= configuration option.")  
+	endif()
+	list(APPEND CMAKE_MODULE_PATH "${ZMQ_INSTALL_DIR}/scripts")
+	find_package(ZMQ REQUIRED)
+endmacro(FindZMQ)

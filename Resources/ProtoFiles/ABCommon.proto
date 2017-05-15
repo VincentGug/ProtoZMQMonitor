@@ -1,0 +1,49 @@
+//-------------------- ABCommon.proto -------------------- 
+
+syntax = "proto3";
+
+package AB_Protocol;
+
+message Vector
+{
+	double x = 1;
+	double y = 2;
+	double z = 3;
+}
+
+message Orientation // In radians
+{
+	double yaw = 1;
+	double pitch = 2;
+	double roll = 3;
+}
+
+message Position {
+	double lat = 1;        //< latitude
+	double lon = 2;        //< longitude
+	double alt = 3;        //< altitude
+}
+
+message EntityDIS
+{
+	int32 hostID = 1;
+	int32 siteID = 2;
+	int32 entityID = 3;
+}
+  
+message DISType
+{
+  int32 kind = 1;
+  int32 domain = 2;
+  int32 country = 3;
+  int32 category = 4;
+  int32 subcategory = 5;
+  int32 specific = 6;
+  int32 extra = 7;
+}
+	
+message SimulationAddress
+{
+	int32 applicationID = 1;
+	int32 siteID = 2;
+}

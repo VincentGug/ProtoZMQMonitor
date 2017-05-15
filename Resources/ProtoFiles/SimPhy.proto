@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package SimPhy;
+
+import "ABCommon.proto";
+
+message WheelData
+{
+	AB_Protocol.Vector position = 1;
+	AB_Protocol.Orientation orientation = 2;
+}
+
+message EntityStatus
+{
+	int32 moduleId = 1;
+    AB_Protocol.Position position = 2;
+    AB_Protocol.Orientation orientation = 3;
+	AB_Protocol.Vector acceleration = 4;
+	AB_Protocol.Vector velocity = 5;
+	AB_Protocol.Vector rotationalAcceleration = 6;
+	AB_Protocol.Vector rotationalVelocity = 7;
+
+    double turret_heading = 8; // rad - positive left direction , relatif chassis
+    double gun_pitch = 9; // rad - positive up direction
+	// WRM: 4096 (Primary turret number 1) and 4416 (Primary gun number 1)
+    
+    double GunnerSight_heading = 10; // rad - positive left direction, , relatif turret
+    double GunnerSight_pitch = 11; // rad - positive up direction
+    
+    double CommanderSight_heading = 12;  // rad - positive left direction , relatif turret
+    double CommanderSight_pitch = 13; // rad - positive up direction
+	// WRM: 5664 (Primary radar 10)
+    
+    // Wheels Layout:
+    // 1 -- 2
+    // 3 -- 4
+    // 5 -- 6
+    // 7 -- 8
+    //Wheel_1  WRM: 4288 (Primary turret number 7) == Yaw / WRM: 5888 (Secondary turret number 7) == Pitch / WRM: 4608 (Primary gun number 7) == Z-Axis
+    //Wheel_2  WRM: 4928 (Primary launcher 7) == Yaw / WRM: 6528 (Secondary launcher 7) == Pitch / WRM: 5248 (Primary defense systems 7) == Z-Axis
+    //Wheel_3  WRM: 4320 (Primary turret number 8) == Yaw / WRM: 5920 (Secondary turret number 8) == Pitch / WRM: 4640 (Primary gun number 8) == Z-Axis
+    //Wheel_4  WRM: 4960 (Primary launcher 8) == Yaw / WRM: 6560 (Secondary launcher 8) == Pitch / WRM: 5280 (Primary defense systems 8) == Z-Axis
+    //Wheel_5  WRM: 4352 (Primary turret number 9) == Yaw / WRM: 5952 (Secondary turret number 9) == Pitch / WRM: 4672 (Primary gun number 9) == Z-Axis
+    //Wheel_6  WRM: 4992 (Primary launcher 9) == Yaw / WRM: 6592 (Secondary launcher 9) == Pitch / WRM: 5312 (Primary defense systems 9) == Z-Axis
+    //Wheel_7  WRM: 4384 (Primary turret number 10) == Yaw / WRM: 5984 (Secondary turret number 10) == Pitch / WRM: 4704 (Primary gun number 10) == Z-Axis
+    //Wheel_8  WRM: 5024 (Primary launcher 10) == Yaw / WRM: 6624 (Secondary launcher 10) == Pitch / WRM: 5344 (Primary defense systems 10) == Z-Axis
+    repeated WheelData wheels = 14;
+}
+
+message AutomotiveControl
+{
+	enum TransmissionGear
+	{
+		Gear_Reverse = 0;
+		Gear_Neutral = 1;
+		Gear_Forward = 2;
+		Gear_Pivot = 3;
+		Gear_Count = 4;
+	}
+	
+	double throttle = 1; // [0:1]
+	double steering = 2; // [-1:1]
+	double brake = 3; // [0:1]
+	TransmissionGear gear = 4;
+	bool parkingBrake = 5;
+}
+
+message AutomotiveData
+{
+	double chassisSpeed = 1; // m.s-1
+	uint32 engineRPM = 2;
+	double distanceTravelledSinceBeginningOfExercise = 3; // km
+	double chassisHeadingRelativeToNorth = 4; // rad
+	double turretHeadingRelativeToChassis = 5; // rad
+}
+	 
+message VehiclePartsMaximumSpeedRequest // Sent by SimGum_BCA at initialization
+{
+
+}
+	 
+message VehiclePartsMaximumSpeedData // Sent by SimPhy - Response to a VehiclePartsMaximumSpeedRequest message - All values are in rad.s-1
+{
+	double turretMaximumAzimuthSpeed = 1;
+	double canonMaximumElevationSpeed = 2;
+	double cssMaximumAzimuthSpeed = 3;
+	double cssMaximumElevationSpeed = 4;
+	double gssMaximumAzimuthSpeed = 5;
+	double gssMaximumElevationSpeed = 6;
+}

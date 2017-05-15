@@ -1,2 +1,2 @@
 # ProtoZMQMonitor
-Gneric ZMQ/Protobuff Monitoring tool
+Generic ZMQ/Protobuff Monitoring tool
